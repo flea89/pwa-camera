@@ -1,0 +1,7 @@
+{
+  "extends": ["standard", "standard-preact"],
+  "rules": {
+    "semi": 0,
+    "comma-dangle": 0
+  }
+}
