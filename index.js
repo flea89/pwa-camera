@@ -9,7 +9,6 @@ import Profile from './routes/profile';
 
 export default () => (
   <div id="app">
-  <script src="lib/webdsp.js" />
     <Router>
       <Home path="/" />
       <Profile path="/profile/" user="me" />

@@ -34,34 +34,34 @@ export default class Camera extends Component {
     };
   }
   componentDidMount () {
+    console.log('componentDidMount');
     this.canvasContext = this.canvas.getContext('2d');
-    this.video.addEventListener('loadedmetadata', (e) => {
-      this.setCanvasSize();
-      this.startRenderLoop();
-    });
-
-    window.loadWASM().then(module => {
-      this.webdsp = module;
-      // things to execute on page load only after module is loaded
-    });
   }
   setCamera (constraints) {
-    navigator.mediaDevices.getUserMedia(constraints)
+    console.log('setting camera')
+    navigator.mediaDevices.getUserMedia({video: true})
       .then((localMediaStream) => {
-        this.mediaStream = localMediaStream;
-        this.video.srcObject = localMediaStream;
+        this.track = localMediaStream.getVideoTracks()[0];
+        window.t = this.track;
+        this.imageCapture = new ImageCapture(this.track);
+        this.imageCapture.grabFrame().then((imageBitmap) => {
+          this.canvas.width = imageBitmap.width;
+          this.canvas.height = imageBitmap.height;
+          this.startRenderLoop();
+        });
       }).catch(() => {});
   }
-  setCanvasSize () {
-    this.canvas.width = this.video.videoWidth;
-    this.canvas.height = this.video.videoHeight;
-  }
-  renderFrame () {
-    this.canvasContext
-      .drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-    const pixels = this.canvasContext.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    pixels.data.set(this.webdsp.invert(pixels.data));
-    this.canvasContext.putImageData(pixels, 0, 0);
+  async renderFrame () {
+    try {
+      const frame = await this.imageCapture.grabFrame();
+      this.canvasContext.drawImage(frame, 0, 0);
+      return frame;
+    } catch (e) {
+      if (e) {
+        this.switchCamera(this.state.cameraMode);
+        return Promise.reject();
+      }
+    }
   }
   startRenderLoop () {
     const renderFrameLoop = () => {
@@ -72,12 +72,11 @@ export default class Camera extends Component {
   }
   switchCamera (cameraMode) {
     this.stopRendering();
-    this.video.pause();
     this.state.cameraMode = cameraMode;
 
-    if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach(track => track.stop());
-      this.mediaStream = null;
+    if (this.track) {
+      this.track.stop();
+      this.track = null;
     }
 
     setTimeout(() => {
@@ -85,7 +84,6 @@ export default class Camera extends Component {
     }, 0);
   }
   toggleCamera () {
-    console.log(this.state.cameraMode);
     if (this.state.cameraMode === CAMERA_MODE.FRONT) {
       this.switchCamera(CAMERA_MODE.BACK);
     } else {
@@ -98,15 +96,22 @@ export default class Camera extends Component {
       this.raf_ = null;
     }
   }
+  async takePhoto() {
+    const blob = await this.imageCapture.takePhoto();
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(blob);
+    img.onload = () => { URL.revokeObjectURL(this.src); }
+    document.body.append(img);
+  }
   render () {
     const self = this;
     return (
       <div class={style.camera}>
         <canvas ref={(canvas) => { self.canvas = canvas }} />
-        <video ref={(video) => { self.video = video }} autoPlay class='video' />
         <div class={style.cameraControls}>
           <button onClick={this.toggleCamera.bind(self)}>Toggle</button>
           <button onClick={() => self.setCamera(CONTRAINTS[self.state.cameraMode])}>Start</button>
+          <button onClick={() => self.takePhoto()}>Take Picture</button>
         </div>
       </div>
     );
