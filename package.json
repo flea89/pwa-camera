@@ -6,7 +6,7 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build": "preact build",
-    "serve": "preact build && preact serve",
+    "serve": "preact build --no-prerender && preact serve",
     "dev": "preact watch",
     "test": "eslint src && preact test"
   },
@@ -26,12 +26,18 @@
     "eslint-plugin-react": "^7.0.1",
     "eslint-plugin-standard": "^3.0.1",
     "if-env": "^1.0.0",
-    "preact-cli": "^1.0.1"
+    "node-sass": "^4.5.3",
+    "preact-cli": "^1.0.1",
+    "sass-loader": "^6.0.5"
   },
   "dependencies": {
+    "material-design-icons": "^3.0.1",
     "preact": "^8.1.0",
     "preact-compat": "^3.16.0",
     "preact-redux": "^2.0.1",
-    "preact-router": "^2.5.2"
+    "preact-router": "^2.5.2",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
+    "webrtc-adapter": "^4.0.1"
   }
 }

@@ -1,0 +1,29 @@
+.home {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-basis: 50%;
+    flex-direction: column;
+    height: 50vh;
+    justify-content: center;
+    text-decoration: none;
+
+    :global(.material-icons) {
+      font-size: 82px;
+    }
+  }
+}
+
+
+.cameraBtn {
+  background-color: red;
+}
+
+
+.galleryBtn {
+  background-color: blue;
+}

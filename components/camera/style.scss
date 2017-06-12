@@ -1,0 +1,62 @@
+.camera {
+  background-color: rgba(0, 0, 0, 1);
+  height: 100vh;
+  position: absolute;
+  width: 100vw;
+
+  video {
+    display: none;
+  }
+
+  canvas {
+    left: 0;
+    position: fixed;
+    top: 0;
+    transform-origin: 0 0;
+  }
+}
+
+.cameraControls {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  position: fixed;
+}
+
+.controlsTop {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.controlsBottom {
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+}
+
+.shoot {
+  background-color: white;
+  border-radius: 50%;
+  border: 10px solid grey;
+  cursor: pointer;
+  font-size: 0;
+  height: 100px;
+  width: 100px;
+}
+
+.toggleCamera {
+  :global(.material-icons) {
+    font-size: 30px;
+  }
+}
+
+.startCamera {
+  display: none;
+}

@@ -1,13 +1,3 @@
-import { h, Component } from 'preact';
-import style from './style';
-import Camera from '../../components/camera';
+import HomeContainer from './HomeContainer';
 
-export default class Home extends Component {
-	render() {
-		return (
-			<div class={style.home}>
-				<Camera/>
-			</div>
-		);
-	}
-}
+export default HomeContainer;

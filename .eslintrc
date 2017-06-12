@@ -2,6 +2,8 @@
   "extends": ["standard", "standard-preact"],
   "rules": {
     "semi": 0,
-    "comma-dangle": 0
+    "comma-dangle": 0,
+    "react/no-unknown-property": [2, { "ignore": ["class", "for"] }],
+    "react/prop-types": 0
   }
 }
