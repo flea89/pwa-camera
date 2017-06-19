@@ -60,3 +60,30 @@
 .startCamera {
   display: none;
 }
+
+.flash {
+  background-color: #fff;
+  height: 100vh;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  opacity: 0;
+
+  &.trigger {
+    animation: flash .1s;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: .3;
+  }
+  100% {
+    opacity: 0;
+  }
+}

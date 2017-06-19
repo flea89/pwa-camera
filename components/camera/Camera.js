@@ -85,7 +85,7 @@ export default class Camera extends Component {
       this.canvasContext.drawImage(frame, 0, 0);
       return frame;
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       if (e && e.code === 11) {
         this.switchCamera(this.state.cameraMode);
       }
@@ -121,6 +121,16 @@ export default class Camera extends Component {
   }
   async takePhoto () {
     const blob = await this.props.imageCapture.takePhoto();
+    this.props.savePhoto(blob);
+    this.setState({
+      flash: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        flash: false,
+      });
+    }, 100);
   }
   render () {
     const self = this;
@@ -136,6 +146,7 @@ export default class Camera extends Component {
         <div class={style.controlsBottom}>
           <a class={style.shoot} onClick={() => self.takePhoto()}>Take Picture</a>
         </div>
+        <div class={`${style.flash} ${this.state.flash ? style.trigger : ''}`}/>
       </div>
     );
   }

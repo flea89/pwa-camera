@@ -5,7 +5,7 @@ import {
 } from './actions';
 
 export const enableCamera = (constraints) => {
-  return async(dispatch) => {
+  return async (dispatch) => {
     dispatch(requestEnableCamera());
     const mediaStream = await navigator.mediaDevices.getUserMedia({video: true});
     const track = mediaStream.getTracks()[0];

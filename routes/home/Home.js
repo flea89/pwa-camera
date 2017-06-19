@@ -3,7 +3,9 @@ import style from './style.scss';
 
 export default class Home extends Component {
   enableCamera () {
-    this.props.enableCamera();
+    if (!this.props.cameraEnabled) {
+      this.props.enableCamera();
+    }
   }
 
   render () {
@@ -13,7 +15,7 @@ export default class Home extends Component {
           <i class='material-icons'>camera</i>
           <div> Start shooting</div>
         </a>
-        <a class={style.galleryBtn}>
+        <a class={style.galleryBtn} href='/library'>
           <i class='material-icons'>photo_library</i>
           <div> Gallery</div>
         </a>
